@@ -43,18 +43,18 @@ NUM_FRIENDS_BY_ID = [(USER['id'], number_of_friends(USER)) for USER in USERS]
 print(sorted(NUM_FRIENDS_BY_ID, key=lambda id_friends: id_friends[1], reverse=True))
 
 def not_the_same(user, other_user):
-    '''...'''
+    '''verifica se os usuários tem ids diferentes'''
     return user['id'] != other_user['id']
 
 
 def not_friends(user, other_user):
-    '''...'''
+    '''verifica se other_user não é amigos de user'''
     return all(not_the_same(friend, other_user)
                for friend in user['friends'])
 
 
 def friends_of_friends_ids(user):
-    '''...'''
+    '''lista os amigos em comum de deteterminado user'''
     return Counter(foaf['id']
                    for friend in user['friends']
                    for foaf in friend['friends']
