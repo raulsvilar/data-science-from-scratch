@@ -1,4 +1,11 @@
-'''Amigos de amigos do capitulo de introdução'''
+'''Capitulo 1 - Introdução'''
+
+
+###################################################
+##                                               ##
+##  Cientistas de dados que talvez você conheça  ##
+##                                               ##
+###################################################
 from collections import Counter
 
 USERS = [{'id': 0, 'name': 'Hero'},
@@ -40,7 +47,7 @@ print('Média de conexões:', AVG_CONNECTIONS)
 
 NUM_FRIENDS_BY_ID = [(USER['id'], number_of_friends(USER)) for USER in USERS]
 
-print(sorted(NUM_FRIENDS_BY_ID, key=lambda id_friends: id_friends[1], reverse=True))
+#print(sorted(NUM_FRIENDS_BY_ID, key=lambda id_friends: id_friends[1], reverse=True))
 
 def not_the_same(user, other_user):
     '''verifica se os usuários tem ids diferentes'''
@@ -61,4 +68,54 @@ def friends_of_friends_ids(user):
                    if not_the_same(user, foaf)
                    and not_friends(user, foaf))
 
-print(friends_of_friends_ids(USERS[3]))
+print('Amigos dos amigos de Chi', friends_of_friends_ids(USERS[3]))
+
+INTERESTS = [
+    (0, "Hadoop"), (0, "Big Data"), (0, "HBase"), (0, "Java"),
+    (0, "Spark"), (0, "Storm"), (0, "Cassandra"),
+    (1, "NoSQL"), (1, "MongoDB"), (1, "Cassandra"), (1, "HBase"),
+    (1, "Postgres"), (2, "Python"), (2, "scikit-learn"), (2, "scipy"),
+    (2, "numpy"), (2, "statsmodels"), (2, "pandas"), (3, "R"), (3, "Python"),
+    (3, "statistics"), (3, "regression"), (3, "probability"),
+    (4, "machine learning"), (4, "regression"), (4, "decision trees"),
+    (4, "libsvm"), (5, "Python"), (5, "R"), (5, "Java"), (5, "C++"),
+    (5, "Haskell"), (5, "programming languages"), (6, "statistics"),
+    (6, "probability"), (6, "mathematics"), (6, "theory"),
+    (7, "machine learning"), (7, "scikit-learn"), (7, "Mahout"),
+    (7, "neural networks"), (8, "neural networks"), (8, "deep learning"),
+    (8, "Big Data"), (8, "artificial intelligence"), (9, "Hadoop"),
+    (9, "Java"), (9, "MapReduce"), (9, "Big Data")
+]
+
+def data_scientists_who_like(target_interest):
+    '''Encontra pessoas com mesmos interesses'''
+    return [user_id
+            for user_id, user_interest in INTERESTS
+            if user_interest == target_interest]
+
+from collections import defaultdict
+
+USER_IDS_BY_INTEREST = defaultdict(list)
+
+for user_id, interest in INTERESTS:
+    USER_IDS_BY_INTEREST[interest].append(user_id)
+
+INTERESTS_BY_USER_ID = defaultdict(list)
+
+for user_id, interest in INTERESTS:
+    INTERESTS_BY_USER_ID[user_id].append(interest)
+
+def most_common_interests_with(user):
+    '''Retorna os usuários que tem os mesmo interesses com o user'''
+    return Counter(interested_user_id
+                   for interest in INTERESTS_BY_USER_ID[user['id']]
+                   for interested_user_id in USER_IDS_BY_INTEREST[interest]
+                   if interested_user_id != user['id'])
+
+print('Usuários com mesmos interesses com Chi', most_common_interests_with(USERS[3]))
+
+###################################################
+##                                               ##
+##           Salários e experiências             ##
+##                                               ##
+###################################################
