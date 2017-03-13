@@ -1,12 +1,11 @@
 '''Capitulo 1 - Introdução'''
-
-
 ###################################################
 ##                                               ##
 ##  Cientistas de dados que talvez você conheça  ##
 ##                                               ##
 ###################################################
 from collections import Counter
+from collections import defaultdict
 
 USERS = [{'id': 0, 'name': 'Hero'},
          {'id': 1, 'name': 'Dunn'},
@@ -93,8 +92,6 @@ def data_scientists_who_like(target_interest):
             for user_id, user_interest in INTERESTS
             if user_interest == target_interest]
 
-from collections import defaultdict
-
 USER_IDS_BY_INTEREST = defaultdict(list)
 
 for user_id, interest in INTERESTS:
@@ -119,3 +116,21 @@ print('Usuários com mesmos interesses com Chi', most_common_interests_with(USER
 ##           Salários e experiências             ##
 ##                                               ##
 ###################################################
+
+SALARIES_AND_TENURES = [
+    (83000, 8.3), (88000, 8.1),
+    (48000, 0.7), (76000, 6),
+    (69000, 6.5), (76000, 7.5),
+    (60000, 2.5), (83000, 10),
+    (48000, 1.9), (63000, 4.2)
+]
+
+SALARY_BY_TENURE = defaultdict(list)
+
+for salary, tenure in SALARIES_AND_TENURES:
+    SALARY_BY_TENURE[tenure].append(salary)
+
+AVARAGE_BY_TENURE = {
+    tenure : sum(salaries) / len(salaries) for tenure,
+    salaries in SALARY_BY_TENURE.items()
+}
