@@ -22,6 +22,8 @@ USERS = [{'id': 0, 'name': 'Hero'},
 FRIENDSHIPS = [(0, 1), (0, 2), (1, 2), (1, 3), (2, 3), (3, 4),
                (4, 5), (5, 6), (5, 7), (6, 8), (7, 8), (8, 9)]
 
+#Traçar dados será abordado com mais detalhadamento no capitulo 3
+
 for USER in USERS:
     USER['friends'] = []
 
@@ -111,6 +113,8 @@ def most_common_interests_with(user):
 
 print('Usuários com mesmos interesses com Chi', most_common_interests_with(USERS[3]))
 
+#Combinação de interesses será melhor abordado no capitulo 22
+
 ###################################################
 ##                                               ##
 ##           Salários e experiências             ##
@@ -127,10 +131,64 @@ SALARIES_AND_TENURES = [
 
 SALARY_BY_TENURE = defaultdict(list)
 
-for salary, tenure in SALARIES_AND_TENURES:
-    SALARY_BY_TENURE[tenure].append(salary)
+for SALARY, TENURE in SALARIES_AND_TENURES:
+    SALARY_BY_TENURE[TENURE].append(SALARY)
 
 AVARAGE_BY_TENURE = {
     tenure : sum(salaries) / len(salaries) for tenure,
     salaries in SALARY_BY_TENURE.items()
 }
+
+def tenure_bucket(tenure):
+    ''' retorna o intervalo de experiencia '''
+    if tenure < 2:
+        return 'menor que dois'
+    elif tenure < 5:
+        return 'entre dois e cinco'
+    else:
+        return 'maior que cinco'
+
+SALARY_BY_TENURE_BUCKET = defaultdict(list)
+
+for SALARY, TENURE in SALARIES_AND_TENURES:
+    bucket = tenure_bucket(TENURE)
+    SALARY_BY_TENURE_BUCKET[bucket].append(SALARY)
+
+AVARAGE_SALARY_BY_BUCKET = {
+    tenure_bucket : sum(salaries) / len(salaries)
+    for tenure_bucket, salaries in SALARY_BY_TENURE_BUCKET.items()
+}
+
+print(AVARAGE_SALARY_BY_BUCKET)
+
+#Previsões serão aboradados no capitulo 14
+
+###################################################
+##                                               ##
+##                 Contas a pagar                ##
+##                                               ##
+###################################################
+
+def predict_paid_or_unpaid(years_experience):
+    '''tenta prever a probabilidade de pagamento pelos
+        anos de experiencia'''
+    if years_experience < 3.0:
+        return 'paid'
+    elif years_experience < 8.5:
+        return 'unpaid'
+    else:
+        return 'paid'
+#Predição e probabilidade será explorado no capitulo 16
+
+###################################################
+##                                               ##
+##            Tópicos de interessse              ##
+##                                               ##
+###################################################
+
+WORDS_AND_COUNTS = Counter(word
+                           for user, interest in INTERESTS
+                           for word in interest.lower().split())
+print(*((word, count) for word, count in WORDS_AND_COUNTS.items()), sep='\n')
+
+#Extração de tópicos dos dados será visto no capitulo 20
